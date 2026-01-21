@@ -1,0 +1,9 @@
+{
+    "build": {
+        "type": "docker"
+    },
+    "deploy": {
+        "type": "docker",
+        "ports": []
+    }
+}

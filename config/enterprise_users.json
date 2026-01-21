@@ -1,0 +1,62 @@
+[
+  {
+    "username": "elonmusk",
+    "count": 15,
+    "priority": "high",
+    "tags": ["tech", "space", "tesla", "ai"]
+  },
+  {
+    "username": "openai",
+    "count": 10,
+    "priority": "high",
+    "tags": ["ai", "tech", "research"]
+  },
+  {
+    "username": "nasa",
+    "count": 8,
+    "priority": "medium",
+    "tags": ["space", "science", "exploration"]
+  },
+  {
+    "username": "spacex",
+    "count": 12,
+    "priority": "high",
+    "tags": ["space", "rockets", "mars"]
+  },
+  {
+    "username": "tesla",
+    "count": 10,
+    "priority": "medium",
+    "tags": ["electric", "cars", "tech"]
+  },
+  {
+    "username": "microsoft",
+    "count": 8,
+    "priority": "medium",
+    "tags": ["tech", "software", "cloud"]
+  },
+  {
+    "username": "google",
+    "count": 8,
+    "priority": "medium",
+    "tags": ["tech", "search", "ai"]
+  },
+  {
+    "username": "apple",
+    "count": 8,
+    "priority": "medium",
+    "tags": ["tech", "iphone", "innovation"]
+  },
+  {
+    "username": "amazon",
+    "count": 6,
+    "priority": "low",
+    "tags": ["ecommerce", "cloud", "tech"]
+  },
+  {
+    "username": "netflix",
+    "count": 5,
+    "priority": "low",
+    "tags": ["streaming", "entertainment"]
+  }
+]

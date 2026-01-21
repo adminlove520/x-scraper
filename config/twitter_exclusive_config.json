@@ -1,0 +1,72 @@
+[
+  {
+    "username": "elonmusk",
+    "count": 20,
+    "priority": "high",
+    "tags": ["tech", "space", "tesla", "ai"],
+    "description": "Tesla CEO and SpaceX founder"
+  },
+  {
+    "username": "openai",
+    "count": 15,
+    "priority": "high",
+    "tags": ["ai", "tech", "research", "chatgpt"],
+    "description": "OpenAI official Twitter account"
+  },
+  {
+    "username": "twitter",
+    "count": 10,
+    "priority": "high",
+    "tags": ["social-media", "platform", "updates"],
+    "description": "Official Twitter account"
+  },
+  {
+    "username": "x",
+    "count": 10,
+    "priority": "high",
+    "tags": ["social-media", "platform", "x-corp"],
+    "description": "Official X (formerly Twitter) account"
+  },
+  {
+    "username": "nasa",
+    "count": 12,
+    "priority": "medium",
+    "tags": ["space", "science", "exploration"],
+    "description": "NASA official Twitter account"
+  },
+  {
+    "username": "spacex",
+    "count": 15,
+    "priority": "high",
+    "tags": ["space", "rockets", "mars", "starship"],
+    "description": "SpaceX official Twitter account"
+  },
+  {
+    "username": "tesla",
+    "count": 12,
+    "priority": "medium",
+    "tags": ["electric", "cars", "tech", "ev"],
+    "description": "Tesla official Twitter account"
+  },
+  {
+    "username": "microsoft",
+    "count": 8,
+    "priority": "medium",
+    "tags": ["tech", "software", "cloud", "azure"],
+    "description": "Microsoft official Twitter account"
+  },
+  {
+    "username": "google",
+    "count": 8,
+    "priority": "medium",
+    "tags": ["tech", "search", "ai", "cloud"],
+    "description": "Google official Twitter account"
+  },
+  {
+    "username": "apple",
+    "count": 8,
+    "priority": "medium",
+    "tags": ["tech", "iphone", "innovation", "ios"],
+    "description": "Apple official Twitter account"
+  }
+]

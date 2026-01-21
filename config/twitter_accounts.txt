@@ -1,0 +1,49 @@
+# Twitter/X.com Exclusive User List
+# This file contains Twitter/X.com usernames only
+# One username per line, lines starting with # are ignored
+
+# Official Twitter/X accounts
+twitter
+x
+
+# Tech Leaders on Twitter
+elonmusk
+openai
+nasa
+spacex
+tesla
+
+# Major Tech Companies on Twitter
+microsoft
+google
+apple
+amazon
+meta
+nvidia
+intel
+amd
+ibm
+oracle
+salesforce
+adobe
+
+# Social Media & Communication
+zoom
+slack
+dropbox
+discord
+linkedin
+youtube
+spotify
+
+# Transportation & Mobility
+uber
+lyft
+airbnb
+
+# Entertainment & Media
+netflix
+reddit
+
+# Note: All accounts listed are Twitter/X.com usernames
+# This scraper is designed exclusively for Twitter/X.com platform

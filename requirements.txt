@@ -1,0 +1,20 @@
+# Twitter/X.com Scraping & Monitor Dependencies
+python-dotenv>=1.0.0
+requests>=2.31.0
+discord.py>=2.3.0
+pyyaml>=6.0.0
+
+# Legacy scraping dependencies (kept for compatibility)
+selenium>=4.15.0
+webdriver-manager>=4.0.0
+beautifulsoup4>=4.12.0
+lxml>=4.9.0
+
+# Data processing
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Scheduling and utilities
+schedule>=1.2.0
+urllib3>=2.0.0
+certifi>=2023.0.0
