@@ -1,3 +1,4 @@
+import os
 import requests
 import time
 from typing import List, Dict, Optional
@@ -16,8 +17,8 @@ class XCrawler:
     def _get_proxies(self):
         """从环境变量获取代理配置"""
         proxies = {}
-        http_proxy = os.getenv("HTTP_PROXY") or os.getenv("http_proxy")
-        https_proxy = os.getenv("HTTPS_PROXY") or os.getenv("https_proxy")
+        http_proxy = (os.getenv("HTTP_PROXY") or os.getenv("http_proxy", "")).strip()
+        https_proxy = (os.getenv("HTTPS_PROXY") or os.getenv("https_proxy", "")).strip()
         if http_proxy:
             proxies["http"] = http_proxy
         if https_proxy:
