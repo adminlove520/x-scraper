@@ -1,50 +1,101 @@
 [
   {
-    "username": "elonmusk",
+    "username": "dianabinance",
     "count": 1000,
     "priority": "high",
-    "tags": ["tech", "space", "tesla", "ai"]
+    "tags": [
+      "binance",
+      "crypto",
+      "community"
+    ]
   },
   {
-    "username": "openai",
-    "count": 500,
+    "username": "ryanair",
+    "count": 1000,
     "priority": "high",
-    "tags": ["ai", "tech", "research"]
+    "tags": [
+      "airline",
+      "travel"
+    ]
   },
   {
-    "username": "nasa",
-    "count": 300,
-    "priority": "medium",
-    "tags": ["space", "science", "exploration"]
+    "username": "lyangminn",
+    "count": 1000,
+    "priority": "high",
+    "tags": [
+      "techflow",
+      "investor",
+      "ai"
+    ]
   },
   {
-    "username": "spacex",
-    "count": 400,
-    "priority": "medium",
-    "tags": ["space", "rockets", "mars"]
+    "username": "flapxfun",
+    "count": 1000,
+    "priority": "high",
+    "tags": [
+      "web3",
+      "token",
+      "gaming"
+    ]
   },
   {
-    "username": "tesla",
-    "count": 300,
-    "priority": "medium",
-    "tags": ["electric", "cars", "tech"]
+    "username": "xeng",
+    "count": 1000,
+    "priority": "high",
+    "tags": [
+      "tech",
+      "engineering",
+      "x"
+    ]
   },
   {
-    "username": "microsoft",
-    "count": 200,
-    "priority": "low",
-    "tags": ["tech", "software", "cloud"]
+    "username": "carlotafang77",
+    "count": 1000,
+    "priority": "high",
+    "tags": [
+      "remilia",
+      "community",
+      "milady"
+    ]
   },
   {
-    "username": "google",
-    "count": 200,
-    "priority": "low",
-    "tags": ["tech", "search", "ai"]
+    "username": "yubopan1",
+    "count": 1000,
+    "priority": "high",
+    "tags": [
+      "chaincatcher",
+      "rootdata",
+      "founder"
+    ]
   },
   {
-    "username": "apple",
-    "count": 200,
-    "priority": "low",
-    "tags": ["tech", "iphone", "innovation"]
+    "username": "sagapad_icm",
+    "count": 1000,
+    "priority": "high",
+    "tags": [
+      "launchpad",
+      "solana",
+      "icm"
+    ]
+  },
+  {
+    "username": "stambouli_o1",
+    "count": 1000,
+    "priority": "high",
+    "tags": [
+      "exchange",
+      "founder",
+      "defi"
+    ]
+  },
+  {
+    "username": "antpositions",
+    "count": 1000,
+    "priority": "high",
+    "tags": [
+      "alpha",
+      "trading",
+      "vtuber"
+    ]
   }
 ]

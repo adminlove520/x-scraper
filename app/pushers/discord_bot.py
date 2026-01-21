@@ -4,6 +4,7 @@ from discord.ext import commands
 from app.core.config import Config
 from app.core.logger import logger
 from app.crawlers.x_crawler import XCrawler
+from app.services.user_service import UserService
 
 class DiscordBot(commands.Bot):
     def __init__(self):
@@ -11,6 +12,7 @@ class DiscordBot(commands.Bot):
         intents.message_content = True
         super().__init__(command_prefix="!", intents=intents)
         self.crawler = XCrawler()
+        self.user_service = UserService(crawler=self.crawler)
 
     async def setup_hook(self):
         # 同步 Slash Commands
@@ -51,10 +53,12 @@ async def followers_add(interaction: discord.Interaction, username: str):
     user_id = str(interaction.user.id)
     username = username.lstrip('@')
     
-    # 验证用户是否存在
-    user_info = bot.crawler.get_user_by_username(username)
-    if not user_info:
-        await interaction.response.send_message(f"未找到用户 @{username}，请检查拼写。", ephemeral=True)
+    await interaction.response.defer(ephemeral=True)
+
+    # 验证并获取增强元数据
+    metadata = bot.user_service.get_user_metadata(username)
+    if not metadata.get("id"):
+        await interaction.followup.send(f"未找到用户 @{username}，请检查拼写。", ephemeral=True)
         return
     
     # 加载并更新配置
@@ -63,19 +67,22 @@ async def followers_add(interaction: discord.Interaction, username: str):
     
     # 防止重复
     if any(u['username'].lower() == username.lower() for u in current_user_config["users"]):
-        await interaction.response.send_message(f"你已经订阅了 @{username}。", ephemeral=True)
+        await interaction.followup.send(f"你已经订阅了 @{username}。", ephemeral=True)
         return
     
-    current_user_config["users"].append({
-        "username": username,
-        "id": user_info["id"],
-        "name": user_info["name"]
-    })
+    # 使用增强元数据
+    current_user_config["users"].append(metadata)
     
     if Config.save_dc_user_config(user_id, current_user_config["users"]):
-        await interaction.response.send_message(f"✅ 成功订阅 @{username}！", ephemeral=True)
+        tags_str = ", ".join(metadata['tags']) if metadata['tags'] else "无"
+        await interaction.followup.send(
+            f"✅ 成功订阅 **{metadata.get('name', username)}** (@{username})！\n"
+            f"📊 优先级: `{metadata['priority']}` | 标签: `{tags_str}`\n"
+            f"💡 已为您自动识别并配置元数据。", 
+            ephemeral=True
+        )
     else:
-        await interaction.response.send_message("❌ 订阅失败，请检查数据目录权限。", ephemeral=True)
+        await interaction.followup.send("❌ 订阅失败，请检查数据目录权限。", ephemeral=True)
 
 @bot.tree.command(name="followers_delete", description="删除订阅用户")
 @app_commands.describe(username="推特用户名，如 @elonmusk")

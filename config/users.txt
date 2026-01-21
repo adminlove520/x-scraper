@@ -1,33 +1,13 @@
 # Enterprise Twitter Users List
 # One username per line, lines starting with # are ignored
 
-elonmusk
-openai
-nasa
-spacex
-tesla
-microsoft
-google
-apple
-amazon
-netflix
-meta
-nvidia
-intel
-amd
-ibm
-oracle
-salesforce
-adobe
-zoom
-slack
-dropbox
-airbnb
-uber
-lyft
-spotify
-twitter
-youtube
-linkedin
-reddit
-discord
+dianabinance
+ryanair
+lyangminn
+flapxfun
+xeng
+carlotafang77
+yubopan1
+sagapad_icm
+stambouli_o1
+antpositions
