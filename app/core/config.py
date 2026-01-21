@@ -1,6 +1,7 @@
 import os
 import json
 import logging
+import re
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -17,7 +18,9 @@ class Config:
     DATA_DIR.mkdir(exist_ok=True)
     
     # Twitter API 配置
-    TWITTER_BEARER_TOKEN = os.getenv("TWITTER_BEARER_TOKEN", "").split(",") # 支持多个 Token 轮换
+    # 获取环境变量并处理多 Token 轮换 (支持英文逗号和中文全角逗号)
+    _raw_tokens = os.getenv("TWITTER_BEARER_TOKEN", "")
+    TWITTER_BEARER_TOKEN = [t.strip() for t in re.split(r'[,\uff0c]', _raw_tokens) if t.strip()]
     DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
     DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
     DISCORD_CHANNEL_ID = os.getenv("DISCORD_CHANNEL_ID") # 推送频道 ID

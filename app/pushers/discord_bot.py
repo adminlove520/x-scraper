@@ -168,6 +168,24 @@ async def admin_delete_for_user(interaction: discord.Interaction, user: discord.
     else:
         await interaction.response.send_message("操作失败。", ephemeral=True)
 
+@bot.tree.command(name="admin_global_list", description="[管理员] 查看全局扫描名单 (users.json)")
+@is_admin()
+async def admin_global_list(interaction: discord.Interaction):
+    global_users = Config.get_global_users()
+    if not global_users:
+        await interaction.response.send_message("全局扫描名单为空。", ephemeral=True)
+        return
+
+    message = "🌍 **全局扫描名单 (users.json)**\n"
+    for i, user in enumerate(global_users[:20]): # 限制显示前20个防止消息过长
+        tags = ", ".join(user.get('tags', []))
+        message += f"{i+1}. @{user['username']} (P:{user.get('priority', 'low')}, Tags: {tags or '无'})\n"
+    
+    if len(global_users) > 20:
+        message += f"*...及其他 {len(global_users) - 20} 个项目*"
+
+    await interaction.response.send_message(message, ephemeral=True)
+
 @bot.tree.command(name="followtop10", description="按粉丝数排序查看 Top 10 订阅用户")
 async def followtop10(interaction: discord.Interaction):
     await interaction.response.defer()
