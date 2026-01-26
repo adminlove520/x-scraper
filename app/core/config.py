@@ -5,8 +5,20 @@ import re
 from pathlib import Path
 from dotenv import load_dotenv
 
-# 加载环境变量
-load_dotenv()
+# 加载环境变量，支持从项目根目录加载.env文件
+dotenv_path = Path(__file__).parent.parent.parent / ".env"
+load_dotenv(dotenv_path=dotenv_path)
+
+# 配置日志
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+
+# 验证环境变量加载
+logger.info(f".env文件路径: {dotenv_path}")
+logger.info(f".env文件存在: {dotenv_path.exists()}")
 
 class Config:
     # 基础路径
@@ -16,15 +28,35 @@ class Config:
     
     # 确保目录存在
     DATA_DIR.mkdir(exist_ok=True)
+    CONFIG_DIR.mkdir(exist_ok=True)
     
     # Twitter API 配置
     # 获取环境变量并处理多 Token 轮换 (支持英文逗号和中文全角逗号)
     _raw_tokens = os.getenv("TWITTER_BEARER_TOKEN", "")
-    TWITTER_BEARER_TOKEN = [t.strip() for t in re.split(r'[,\uff0c]', _raw_tokens) if t.strip()]
+    logger.info(f"原始TWITTER_BEARER_TOKEN: {_raw_tokens}")
+    
+    # 改进Token解析逻辑，确保正确处理各种分隔符
+    TWITTER_BEARER_TOKEN = []
+    if _raw_tokens:
+        # 支持多种分隔符：英文逗号、中文全角逗号、空格、换行
+        tokens = re.split(r'[,\uff0c\s\n]+', _raw_tokens)
+        TWITTER_BEARER_TOKEN = [t.strip() for t in tokens if t.strip()]
+        logger.info(f"解析后的Token数量: {len(TWITTER_BEARER_TOKEN)}")
+        logger.info(f"解析后的Token列表: {TWITTER_BEARER_TOKEN}")
+    else:
+        logger.warning("未检测到TWITTER_BEARER_TOKEN环境变量")
+    
+    # 其他环境变量
     DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
     DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
     DISCORD_CHANNEL_ID = os.getenv("DISCORD_CHANNEL_ID") # 推送频道 ID
     DISCORD_ADMIN_ID = os.getenv("DISCORD_ADMIN_ID") # 管理员 ID
+    
+    # 日志输出环境变量状态
+    logger.info(f"DISCORD_TOKEN存在: {bool(DISCORD_TOKEN)}")
+    logger.info(f"DISCORD_WEBHOOK_URL存在: {bool(DISCORD_WEBHOOK_URL)}")
+    logger.info(f"DISCORD_CHANNEL_ID存在: {bool(DISCORD_CHANNEL_ID)}")
+    logger.info(f"DISCORD_ADMIN_ID存在: {bool(DISCORD_ADMIN_ID)}")
     
     # 全局采集用户列表
     GLOBAL_USERS_FILE = CONFIG_DIR / "users.json"
