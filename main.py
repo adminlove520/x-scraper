@@ -4,6 +4,7 @@ from app.core.config import Config
 from app.core.logger import logger
 from app.engine import ScraperEngine
 from app.pushers.discord_bot import bot, start_bot
+from app.core.queue_manager import queue_manager
 
 async def run_engine():
     """在后台运行采集引擎"""
@@ -13,6 +14,9 @@ async def run_engine():
 
 async def main():
     logger.info("X-Scraper 服务启动中...")
+    
+    # 启动队列管理器
+    await queue_manager.start()
     
     # 启动采集引擎后台任务
     engine_task = asyncio.create_task(run_engine())
@@ -31,6 +35,8 @@ async def main():
         logger.error(f"运行过程中发生错误: {e}")
     finally:
         await bot.close()
+        # 停止队列管理器
+        await queue_manager.stop()
 
 if __name__ == "__main__":
     try:

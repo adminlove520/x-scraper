@@ -66,6 +66,22 @@ class Config:
     
     # 关注列表快照记录
     FOLLOWING_SNAPSHOT_FILE = DATA_DIR / "following_snapshot.json"
+    
+    # 队列系统配置
+    QUEUE_CONFIG = {
+        "twitter_api": {
+            "max_tokens": 15,  # 15 requests / 15 minutes
+            "refill_interval": 900  # 15 minutes in seconds
+        },
+        "discord_bot": {
+            "max_tokens": 5,     # 5 messages / second
+            "refill_interval": 1  # 1 second
+        },
+        "webhook_push": {
+            "max_tokens": 3,      # 3 webhooks / second
+            "refill_interval": 1   # 1 second
+        }
+    }
 
     @classmethod
     def get_global_users(cls):

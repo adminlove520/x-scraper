@@ -2,11 +2,13 @@ import asyncio
 import time
 import os
 from datetime import datetime
+import discord
 from app.core.config import Config
 from app.core.logger import logger
 from app.crawlers.x_crawler import XCrawler
 from app.pushers.webhook_pusher import WebhookPusher
 from app.pushers.discord_bot import bot
+from app.core.queue_manager import queue_manager
 
 class ScraperEngine:
     def __init__(self):
@@ -44,7 +46,7 @@ class ScraperEngine:
 
         for user_entry in users:
             username = user_entry.get("username")
-            user_info = self.crawler.get_user_by_username(username)
+            user_info = await self.crawler.get_user_by_username(username)
             if not user_info:
                 continue
             
@@ -66,7 +68,7 @@ class ScraperEngine:
             
             for user_entry in users:
                 username = user_entry.get("username")
-                user_info = self.crawler.get_user_by_username(username)
+                user_info = await self.crawler.get_user_by_username(username)
                 if not user_info:
                     continue
                 
@@ -81,7 +83,7 @@ class ScraperEngine:
     async def _check_tweets(self, user_info: dict, discord_user_id: str = None, is_global: bool = False):
         """辅助函数：检查并推送推文"""
         username = user_info["username"]
-        tweets = self.crawler.get_latest_tweets(user_info["id"])
+        tweets = await self.crawler.get_latest_tweets(user_info["id"])
         
         for tweet in tweets:
             if tweet["id"] not in self.processed_ids:
@@ -89,7 +91,7 @@ class ScraperEngine:
                 
                 if is_global:
                     embed = WebhookPusher.format_tweet_embed(tweet, user_info)
-                    self.webhook_pusher.push(embeds=[embed])
+                    await self.webhook_pusher.push(embeds=[embed])
                 
                 if discord_user_id:
                     await self.push_to_discord_user(discord_user_id, tweet, user_info, type="tweet")
@@ -101,7 +103,7 @@ class ScraperEngine:
         user_id = user_info["id"]
         username = user_info["username"]
         
-        current_following = self.crawler.get_following(user_id)
+        current_following = await self.crawler.get_following(user_id)
         if not current_following:
             return
 
@@ -123,14 +125,17 @@ class ScraperEngine:
         # 更新快照
         self.following_snapshots[user_id] = list(current_following_ids)
 
+    async def _send_discord_message(self, channel_id: int, content: str, embed: discord.Embed):
+        """异步发送Discord消息"""
+        channel = bot.get_channel(channel_id)
+        if not channel:
+            return
+        await channel.send(content=content, embed=embed)
+
     async def push_to_discord_user(self, discord_user_id: str, data: dict, target_user_info: dict, type: str = "tweet"):
-        """通过 Bot 推送给特定用户并 @他"""
+        """通过 Bot 推送给特定用户并 @他，通过队列管理器"""
         target_channel_id = int(os.getenv("DISCORD_CHANNEL_ID", 0))
         if not target_channel_id:
-            return
-
-        channel = bot.get_channel(target_channel_id)
-        if not channel:
             return
 
         target_username = target_user_info["username"]
@@ -154,4 +159,10 @@ class ScraperEngine:
             content = f"<@{discord_user_id}> 你监控的用户有了新关注！"
             
         embed.set_footer(text=f"时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-        await channel.send(content=content, embed=embed)
+        
+        # 将发送任务添加到队列
+        await queue_manager.add_task(
+            "discord_bot",
+            self._send_discord_message,
+            target_channel_id, content, embed
+        )

@@ -57,3 +57,4 @@ app.log
 .vscode/
 .idea/
 .DS_Store
+.trae/*
