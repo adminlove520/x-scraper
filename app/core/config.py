@@ -31,7 +31,7 @@ class Config:
     CONFIG_DIR.mkdir(exist_ok=True)
     
     # Twitter API 配置
-    # 获取环境变量并处理多 Token 轮换 (支持英文逗号和中文全角逗号)
+    # 1. 支持 Bearer Token 认证
     _raw_tokens = os.getenv("TWITTER_BEARER_TOKEN", "")
     logger.info(f"原始TWITTER_BEARER_TOKEN: {_raw_tokens}")
     
@@ -39,12 +39,22 @@ class Config:
     TWITTER_BEARER_TOKEN = []
     if _raw_tokens:
         # 支持多种分隔符：英文逗号、中文全角逗号、空格、换行
-        tokens = re.split(r'[,\uff0c\s\n]+', _raw_tokens)
+        tokens = re.split(r'[,，\s\n]+', _raw_tokens)
         TWITTER_BEARER_TOKEN = [t.strip() for t in tokens if t.strip()]
-        logger.info(f"解析后的Token数量: {len(TWITTER_BEARER_TOKEN)}")
-        logger.info(f"解析后的Token列表: {TWITTER_BEARER_TOKEN}")
+        logger.info(f"解析后的Bearer Token数量: {len(TWITTER_BEARER_TOKEN)}")
+        logger.info(f"解析后的Bearer Token列表: {TWITTER_BEARER_TOKEN}")
     else:
         logger.warning("未检测到TWITTER_BEARER_TOKEN环境变量")
+    
+    # 2. 支持 API Key/Secret 认证
+    TWITTER_API_KEY = os.getenv("TWITTER_API_KEY")
+    TWITTER_API_SECRET = os.getenv("TWITTER_API_SECRET")
+    logger.info(f"TWITTER_API_KEY存在: {bool(TWITTER_API_KEY)}")
+    logger.info(f"TWITTER_API_SECRET存在: {bool(TWITTER_API_SECRET)}")
+    
+    # 3. 认证方式检查
+    if not TWITTER_BEARER_TOKEN and not (TWITTER_API_KEY and TWITTER_API_SECRET):
+        logger.error("未检测到有效的Twitter API认证信息，请配置TWITTER_BEARER_TOKEN或TWITTER_API_KEY+TWITTER_API_SECRET")
     
     # 其他环境变量
     DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
